@@ -1,5 +1,0 @@
-■ MusicPlayerMaker
-
-VRChatにおける音楽プレーヤーを探した限りではデザインが強くかつ固定長のものしかなくて、カジュアルには使い勝手があまり良くないなと思ったのでシンプルな可変長のやつを作ってみました。
-
-MusicPlayerMakerプレハブをてきとうに置いて、Window->MusicPlayerMakerの設定ウインドウにD&Dしたら任意の数のAudioClipをよしなに設定できます。

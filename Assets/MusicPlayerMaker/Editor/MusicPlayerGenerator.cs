@@ -36,6 +36,8 @@ namespace MusicPlayerMaker {
         float ButtonMargin = 5;
         [SerializeField]
         float ButtonA =0.4f;
+        [SerializeField]
+        float ImageA = 0.5f;
         public MusicPlayer muc;
        public  AudioClip[] audio;
         public AudioClip[] lsau;
@@ -54,11 +56,12 @@ namespace MusicPlayerMaker {
             var oldPlayerObject = PlayerObject;
             var oldimage = Image;
             var oldbta = ButtonA;
+            var oldia = ImageA;
             //muc = GameObject.Find("MusicPlayer").GetComponent<MusicPlayer>();
-            
+
             //udon.publicVariables.TryGetVariableValue("", out music01);
 
-            
+
             var so = new SerializedObject(this);
             so.Update();
 
@@ -69,9 +72,10 @@ namespace MusicPlayerMaker {
             EditorGUILayout.PropertyField(so.FindProperty("PlayerObject"), new GUIContent("音乐播放器"));
             EditorGUILayout.PropertyField(so.FindProperty("AudioSource"), new GUIContent("AudioSource"));
             EditorGUILayout.PropertyField(so.FindProperty("Image"), new GUIContent("背景图片"));
+            EditorGUILayout.PropertyField(so.FindProperty("ImageA"), new GUIContent("背景图片不透明度0～1"));
             EditorGUILayout.PropertyField(so.FindProperty("ButtonA"), new GUIContent("歌曲按钮背景不透明度0～1"));
-            EditorGUILayout.PropertyField(so.FindProperty("ButtonSize"), new GUIContent("按钮大小"));
-            EditorGUILayout.PropertyField(so.FindProperty("ButtonMargin"), new GUIContent("按钮行距"));
+            EditorGUILayout.PropertyField(so.FindProperty("ButtonSize"), new GUIContent("按钮大小(需点排序刷新）"));
+            EditorGUILayout.PropertyField(so.FindProperty("ButtonMargin"), new GUIContent("按钮行距(需点排序刷新）"));
             EditorGUILayout.PropertyField(so.FindProperty("AudioClips"), new GUIContent("音频组添加（如果添加或删减后点播放测试发现播放器主脚本里的music组被还原到上一次了（如果有些歌曲点不了可以去看看这里的问题），请先点排序后手动对music组进行展开再合上即可，我也不知道为什么）"), true);
 
             so.ApplyModifiedProperties();
@@ -97,16 +101,22 @@ namespace MusicPlayerMaker {
                 ButtonSize = textbtx.GetOrAddComponent<Text>().text == "" && textbty.GetOrAddComponent<Text>().text == "" ? new Vector2(170, 24) : new Vector2(float.Parse(textbtx.GetOrAddComponent<Text>().text), float.Parse(textbty.GetOrAddComponent<Text>().text));
                 var textbm = bl.FindChildOrCreate("按钮行距");
                 ButtonMargin = textbm.GetOrAddComponent<Text>().text == "" ? 5 : float.Parse(textbm.GetOrAddComponent<Text>().text);
+                var textia = bl.FindChildOrCreate("背景不透明度");
+                ImageA = textia.GetOrAddComponent<Text>().text == "" ? 0.5f : float.Parse(textia.GetOrAddComponent<Text>().text);
             }
             if (ButtonA>1)
             {
                 ButtonA = 1f;
             }
+            if (ImageA>1)
+            {
+                ImageA = 1f;
+            }
             if(ButtonA!=oldbta && PlayerObject != null&& PlayerObject == oldPlayerObject)
             {
                 Px();
             }
-            if (Image != null && Image != oldimage && PlayerObject != null)
+            if (ImageA!=oldia || (Image != null && Image != oldimage) && PlayerObject != null)
             { 
                 upimage();
             }
@@ -162,12 +172,15 @@ namespace MusicPlayerMaker {
                 scr.GetComponent<Image>().enabled = false;
                 image.enabled = true;
                 image.sprite = Sprite.Create(Image, new Rect(0, 0, Image.width, Image.height),new Vector2(0.5f,0.5f));                
-                image.color = new Color(image.color.r, image.color.g, image.color.b, 0.4f);
+                image.color = new Color(image.color.r, image.color.g, image.color.b, ImageA);
                 image.type = (Image.Type)3;
                 image.fillMethod = (Image.FillMethod)1;
                 image.fillOrigin = 0;
                 image.fillAmount = 0.9f;
-               
+                var bl = PlayerObject.FindChildOrCreate("变量存储");
+                var textia = bl.FindChildOrCreate("背景不透明度");
+                textia.GetOrAddComponent<Text>().text = ImageA.ToString();
+                textia.GetOrAddComponent<Text>().enabled = false;
             }
         }
         void Px()

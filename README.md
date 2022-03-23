@@ -2,7 +2,7 @@
 ## 介绍
 这是一个用在VRChat World而制作的一个本地音乐播放器，可以支持一键添加部署歌曲,支持正常音乐播放器的功能
 ![](https://raw.githubusercontent.com/CCYellowStar/pic/master/20220317/QQ截图20220323144455.os3lqi5o58g.webp)
-![](https://raw.githubusercontent.com/CCYellowStar/pic/master/20220317/QQ截图20220323144415.4mtttasa1fa0.webp)
+![](https://raw.githubusercontent.com/CCYellowStar/pic/master/20220317/QQ截图20220323144415.29nutdk60zb4.webp)
 ## 用法
 需要导入[vrchat世界sdk](https://vrchat.com/home/download)和[Udonsharp](https://github.com/vrchat-community/UdonSharp)  
 将unity包拖入工程，然后先将`Assets\MusicPlayerMaker`里的`MusicPlayer.prefab`导入到场景并放好，可根据自己喜好重新修改外观  
